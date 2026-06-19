@@ -1,0 +1,30 @@
+# vibe-coding-website-security
+
+> A guardrail repo for AI-generated ("vibe-coded") websites: the common security flaws, exploits, and
+> missing engineering pieces, each with a concrete fix and authoritative sources. Point your AI at this
+> before it builds, and have it run the checklist before shipping.
+
+## Start here
+- [AGENTS.md](AGENTS.md): the rules an AI coding agent must follow when generating a website, plus how to use this repo and the Security Report it should emit.
+- [CHECKLIST.md](CHECKLIST.md): the master pre-ship checklist — every item across security, login/auth, production-readiness, and architecture, each tier-tagged (🟢 every app → 🔴 regulated); the rule is tick-it-or-mark-N/A so nothing is skipped by omission.
+
+## Security
+- [The 50 vulnerabilities](security/vulnerabilities.md): the recurring security holes in AI-coded apps — secrets exposure, broken auth/authorization & IDOR, injection (SQL/NoSQL/path), XSS/CSRF/CORS, sessions/JWT, SSRF/webhooks/uploads, Firebase/Supabase/S3 misconfig, environment exposure, AI/prompt-injection, and ops — each with what it is, why AI codegen hits it, a concrete fix, and sources.
+- [Login & auth mistakes](security/login-and-auth.md): the 5 highest-frequency vibe-coded auth flaws — tokens in localStorage (XSS theft), client-side authorization/role checks, weak email-based "MFA", no rate limiting on auth endpoints, and weak/breached passwords — each with the fix (httpOnly cookies/BFF, server-side authz, TOTP/passkeys, throttling+lockout, Pwned Passwords + NIST 800-63B) and sources.
+- [Pre-ship checklist](security/checklist.md): the 50 as a fast checkbox list, grouped, plus a per-deploy "ship gate".
+- [AI / LLM security](security/ai-llm-security.md): the OWASP Top 10 for LLM Applications (2025) — prompt injection (with architectural defenses: dual-LLM, CaMeL, the "lethal trifecta"), sensitive-info disclosure, model/data supply chain, improper output handling, excessive agency, system-prompt leakage, vector/embedding (RAG) weaknesses, misinformation, unbounded consumption — plus AI-agent/MCP security and slopsquatting (hallucinated dependencies). For any app with an LLM, RAG, or agent.
+- [Advanced & general web security](security/advanced-web-security.md): the deeper layer for any site — TLS/DNS hardening (TLS 1.3, DNSSEC, CAA, subdomain takeover), advanced browser controls (CSP Level 3 strict-dynamic + Trusted Types, SRI, __Host-/__Secure- cookie prefixes, clickjacking/tabnabbing/open-redirects, COOP/COEP/CORP), identity (OAuth 2.0/OIDC with PKCE, account-enumeration, SSO pitfalls), the OWASP API Top 10 (2023) incl. GraphQL/WebSocket, email/domain integrity (SPF/DKIM/DMARC/MTA-STS), software supply chain (SBOM, SLSA, Sigstore signing, pinned CI), and security governance (threat modeling, incident response, responsible disclosure, privacy).
+- [HTTP security headers](security/http-security-headers.md): how to set real headers (HSTS, frame protection, nosniff, CSP, Permissions-Policy) on a static host via Cloudflare, and why `<meta>` can't.
+
+## Engineering
+- [Beyond code](engineering/beyond-code.md): "Engineering is more than just code" — the backend/system-design concepts AI usually omits (containers & Kubernetes, cloud/serverless, AWS SQS/S3/DynamoDB, message queues & WebSockets, databases/sharding/caching, load balancers/proxies/firewalls, performance & scaling, dev tooling), each with honest "when it's overkill" guidance.
+
+## Production-readiness
+- [Production-readiness](production-readiness/): the engineering layer AI skips — testing (unit/integration/e2e, regression, load/stress, chaos, coverage-in-CI, code review), reliability (error handling/graceful degradation, retries with backoff+jitter+idempotency, circuit breakers, concurrency/race conditions, caching+invalidation), data & compliance (PII handling, retention/deletion, GDPR, HIPAA, multi-tenancy isolation), operations (audit/tamper-evident logging, RTO/RPO, disaster recovery), and architecture/governance/accessibility (C4 diagrams, ADRs, WCAG 2.2) — each tagged with a tier (every app → regulated) so you build to the right level, not over- or under-engineered.
+
+## Backend database hosting
+- [Backend database hosting & security](database-hosting/): hosting a backend DB safely — universal controls (never expose the DB to the internet, least-privilege roles, TLS, parameterized queries, RLS/tenant isolation, secrets management, tested backups) plus per-provider guides. Deep [Supabase](database-hosting/supabase.md) **free-tier** focus (RLS on every table, anon/publishable vs service_role/secret keys, Auth + MFA + leaked-password protection, Storage policies, Edge Function secrets, Supavisor pooling, free-tier limits + project pausing + no automated backups), plus [Firebase](database-hosting/firebase.md) (Security Rules/App Check), [relational](database-hosting/relational.md) (PostgreSQL/MySQL/PlanetScale/Neon — roles, RLS, TLS, network isolation), [NoSQL & cache](database-hosting/nosql-and-cache.md) (MongoDB/Redis/DynamoDB — auth + never internet-exposed), and [embedded/edge + OSS BaaS](database-hosting/embedded-and-baas.md) (SQLite/Turso/D1, PocketBase/Appwrite/Convex).
+
+## Meta
+- [README](README.md): what this is and how to use it.
+- [CONTRIBUTING](CONTRIBUTING.md): how to add findings (cite authoritative sources, keep it generic, match the format).
