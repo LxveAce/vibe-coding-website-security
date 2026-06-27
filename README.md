@@ -9,6 +9,23 @@ production-readiness layer (testing, reliability, recovery). This repo is a comp
 guardrail: the common flaws *and* the engineering pieces AI forgets, each with a concrete fix and
 authoritative sources.
 
+<!-- STATUS-ROADMAP:START -->
+## Status & Roadmap
+**Status:** Healthy and stable — a docs-only AI-security guardrail (MIT); content is current, all internal links resolve, and there is no build to break.
+
+**In progress / known issues:**
+- `scripts/apply-cloudflare-headers.ps1` **replaces** the zone's response-header transform-rule entrypoint rather than appending — review existing Cloudflare rules before running. A clearer warning is being added to the script and docs.
+- Fixing a stale cross-reference in the script comment (point it at [`security/http-security-headers.md`](security/http-security-headers.md)).
+- The script's `connect-src` CSP is currently GitHub-specific; documenting/parameterizing it so it is reusable across sites.
+
+**Roadmap:**
+- Lightweight CI (GitHub Actions) running a Markdown link checker on push/PR.
+- Extend link checking to validate intra-doc `#anchor` references, not just file existence.
+- Parameterize `apply-cloudflare-headers.ps1` (`-ConnectSrc` / `-Csp`) for genuine cross-site reuse.
+- Cut a tagged GitHub release only if/when pinned artifacts are ever shipped.
+- Publish a rendered docs site (and set the repo homepage) only if one is ever built.
+<!-- STATUS-ROADMAP:END -->
+
 ## Who it's for
 - **AIs / coding agents** — read [`AGENTS.md`](AGENTS.md), follow the rules, and run the checklist before "done."
 - **Humans using AI** — hand your assistant this repo so it stops shipping the usual holes.
