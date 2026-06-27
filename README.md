@@ -13,10 +13,16 @@ authoritative sources.
 ## Status & Roadmap
 **Status:** Healthy and stable — a docs-only AI-security guardrail (MIT); content is current, all internal links resolve, and there is no build to break.
 
+> [!WARNING]
+> **`scripts/apply-cloudflare-headers.ps1` is destructive.** It issues a `PUT` to the zone's
+> `http_response_headers_transform` **entrypoint ruleset, which REPLACES that ruleset wholesale** —
+> any pre-existing response-header Transform Rules on the zone (dashboard- or script-created) are
+> **wiped** and replaced by the single rule the script defines. Review the zone's existing rules before
+> running. Its CSP `connect-src https://api.github.com` is an **example**; pass `-ConnectSrc` to match
+> the origins your own site fetches (or `-ConnectSrc 'none'`).
+
 **In progress / known issues:**
-- `scripts/apply-cloudflare-headers.ps1` **replaces** the zone's response-header transform-rule entrypoint rather than appending — review existing Cloudflare rules before running. A clearer warning is being added to the script and docs.
-- Fixing a stale cross-reference in the script comment (point it at [`security/http-security-headers.md`](security/http-security-headers.md)).
-- The script's `connect-src` CSP is currently GitHub-specific; documenting/parameterizing it so it is reusable across sites.
+- See the destructive-action warning above re: `scripts/apply-cloudflare-headers.ps1` replacing the zone's response-header transform-rule entrypoint.
 
 **Roadmap:**
 - Lightweight CI (GitHub Actions) running a Markdown link checker on push/PR.

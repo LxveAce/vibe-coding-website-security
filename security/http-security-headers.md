@@ -76,9 +76,23 @@ HSTS can also be turned on at **SSL/TLS → Edge Certificates → HSTS** once HT
 [`scripts/apply-cloudflare-headers.ps1`](../scripts/apply-cloudflare-headers.ps1) creates the
 response-header Transform Rule for a zone. Needs a token with **Zone:Read + Transform Rules:Edit**.
 
+> [!WARNING]
+> **Destructive.** The script `PUT`s the zone's `http_response_headers_transform` **entrypoint ruleset,
+> which REPLACES that ruleset entirely.** Any pre-existing response-header Transform Rules on the zone
+> (added via the dashboard or other automation) are **wiped** and replaced by the single rule the script
+> defines. Review the zone's existing rules before running.
+
 ```powershell
 $env:CLOUDFLARE_API_TOKEN = '<token>'   # set in the env; never hardcode
 ./scripts/apply-cloudflare-headers.ps1 -Domain example.com
+```
+
+**The CSP `connect-src` is example-specific.** The script defaults to `connect-src https://api.github.com`
+(suited to a site that fetches the GitHub API). Adjust it per site with the `-ConnectSrc` parameter — pass
+the exact origins your site calls, or `'none'` if it makes no `fetch`/XHR requests:
+
+```powershell
+./scripts/apply-cloudflare-headers.ps1 -Domain example.com -ConnectSrc 'none'
 ```
 
 ## Verify
