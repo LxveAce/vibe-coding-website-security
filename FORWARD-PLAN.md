@@ -68,7 +68,7 @@ Optional, evidence-backed enhancements:
 
 - **PRIVATE companion:** `LxveAce/website-playbook` — personal mapping (`security/my-stack-status.md`) + open to-do list (`MANUAL-ACTIONS.md`). Leaner/older subset with divergent filenames (`ai-coded-vulnerabilities.md`, `cloudflare-headers.md`). Public repo is canonical. Do NOT plan private-repo edits from this plan.
 - **Shared artifact (drifted):** `scripts/apply-cloudflare-headers.ps1` in both repos.
-- **Continuity (read-only):** `C:/Users/mmrla/repos/session-context/SESSION.md` + private `MANUAL-ACTIONS.md`. NOT related: `C:/Users/mmrla/Projects/CLAUDE-TRANSFER.md` (cyberdeck).
+- **Continuity (read-only):** `<HOME>/repos/session-context/SESSION.md` + private `MANUAL-ACTIONS.md`. NOT related: `<HOME>/Projects/CLAUDE-TRANSFER.md` (cyberdeck).
 - **Script runtime deps:** PowerShell + `$env:CLOUDFLARE_API_TOKEN`; no external modules; Cloudflare API v4.
 - **Standing commit rules (OVERRIDE defaults):** commit as **LxveAce**, **NO** `Co-Authored-By: Claude` trailer; no real name/email/phone on public repos.
 - **Informing-context only (NOT flagship-repo work):** live static sites still lack enforced HSTS/frame-ancestors/nosniff/Permissions-Policy (Cloudflare grey-cloud/DNS-only); blocked on a Cloudflare token + flipping records to proxied — which is exactly what this repo's script solves once a token exists.
