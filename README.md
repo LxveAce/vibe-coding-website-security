@@ -2,6 +2,8 @@
 
 **Point your AI at this repo before you vibe-code a website or app.**
 
+> ⚠️ **Education & authorized, lawful use only.** Apply anything here only on systems you own or have explicit permission to test. Provided as-is, no warranty. See [DISCLAIMER.md](DISCLAIMER.md).
+
 AI coding assistants are great at the happy path — and notorious for shipping the same security holes and
 missing pieces every time: secrets in the client, insecure logins, no real authorization, IDOR, injection,
 missing security headers, world-readable databases, prompt injection — and skipping the whole
