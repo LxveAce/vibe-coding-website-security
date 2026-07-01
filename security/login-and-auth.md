@@ -18,7 +18,7 @@ AI code generators reliably produce auth that "works" in the happy path but leak
 
 **When it applies.** Every app — anything with a login needs correct token storage; XSS-to-account-takeover applies to the simplest site. Refresh-token rotation/reuse-detection and BFF matter more once you have real users or sensitive data.
 
-**Sources:** <https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html> · <https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies> · <https://datatracker.ietf.org/doc/html/rfc9700>
+**Sources:** <https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html> · <https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies> · <https://datatracker.ietf.org/doc/html/rfc9700>
 
 ## 2. Authorization/role checks done on the client instead of the server
 
