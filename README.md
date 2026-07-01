@@ -13,7 +13,7 @@ authoritative sources.
 
 <!-- STATUS-ROADMAP:START -->
 ## Status & Roadmap
-**Status:** Healthy and stable — a docs-only AI-security guardrail (MIT); content is current, all internal links resolve, and there is no build to break.
+**Status:** Healthy and stable — a docs-only AI-security guardrail (MIT). A GitHub Actions link check (lychee) runs on every push/PR; content is current and all internal links, heading anchors, and external sources resolve.
 
 > [!WARNING]
 > **`scripts/apply-cloudflare-headers.ps1` is destructive.** It issues a `PUT` to the zone's
@@ -27,8 +27,6 @@ authoritative sources.
 - See the destructive-action warning above re: `scripts/apply-cloudflare-headers.ps1` replacing the zone's response-header transform-rule entrypoint.
 
 **Roadmap:**
-- Lightweight CI (GitHub Actions) running a Markdown link checker on push/PR.
-- Extend link checking to validate intra-doc `#anchor` references, not just file existence.
 - Parameterize `apply-cloudflare-headers.ps1` (`-ConnectSrc` / `-Csp`) for genuine cross-site reuse.
 - Cut a tagged GitHub release only if/when pinned artifacts are ever shipped.
 - Publish a rendered docs site (and set the repo homepage) only if one is ever built.
