@@ -1,6 +1,6 @@
 # vibe-coding-website-security
 
-> A guardrail repo for AI-generated ("vibe-coded") websites: the common security flaws, exploits, and
+> A guardrail repo for AI-generated ("vibe-coded") websites: the common security flaws, weaknesses, and
 > missing engineering pieces, each with a concrete fix and authoritative sources. Point your AI at this
 > before it builds, and have it run the checklist before shipping.
 
