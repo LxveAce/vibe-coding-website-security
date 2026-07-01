@@ -16,7 +16,7 @@ For small or edge AI-coded apps, embedded/edge SQLite-family databases (SQLite, 
 
 **When it applies.** Every app — any app shipping a SQLite-family file must get file location and permissions right; it is the entire security boundary.
 
-**Sources:** <https://www.cmsqlite.net/how-to-secure-your-sqlite-database-from-common-threats/> · <https://sqlite.org/forum/info/87824f1ed837cdbb>
+**Sources:** <https://cmsqlite.net/how-to-secure-your-sqlite-database-from-common-threats/> · <https://sqlite.org/forum/info/87824f1ed837cdbb>
 
 ### 🔵 Encryption at rest: SQLCipher and libSQL/Turso encryption
 

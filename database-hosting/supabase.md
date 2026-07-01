@@ -112,7 +112,7 @@ Supabase is Postgres with an auto-generated REST/Realtime/Storage API in front o
 
 **When it applies.** Once you connect directly (ORM/migrations) or deploy serverless. SSL enforcement & network restrictions: before real launch / Regulated. Free tier: SSL enforcement, network restrictions, and Supavisor pooling are all available.
 
-**Sources:** <https://supabase.com/docs/guides/platform/ssl-enforcement> · <https://supabase.com/docs/guides/platform/network-restrictions> · <https://supabase.com/docs/guides/database/connecting-to-postgres> · <https://supabase.com/docs/guides/troubleshooting/going-into-prod>
+**Sources:** <https://supabase.com/docs/guides/platform/ssl-enforcement> · <https://supabase.com/docs/guides/platform/network-restrictions> · <https://supabase.com/docs/guides/database/connecting-to-postgres> · <https://supabase.com/docs/guides/deployment/going-into-prod>
 
 ### 🟢 Security Advisor / database Linter + CLI migrations to catch RLS-disabled tables
 
