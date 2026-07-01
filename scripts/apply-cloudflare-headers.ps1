@@ -74,7 +74,7 @@ $body = @{
     action = 'rewrite'
     action_parameters = @{ headers = $hdrObj }
     expression  = 'true'
-    description = 'security-headers (managed by website-playbook)'
+    description = 'security-headers (vibe-coding-website-security)'
     enabled     = $true
   })
 } | ConvertTo-Json -Depth 8
