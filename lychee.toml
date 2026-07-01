@@ -17,7 +17,7 @@ timeout = 30
 
 # Also validate intra-doc "#anchor" fragments, not just that the file exists,
 # so a renamed heading can't silently break cross-document navigation.
-include_fragments = "full"
+include_fragments = true
 
 # Cache results between runs to cut flakiness and load.
 cache = true
