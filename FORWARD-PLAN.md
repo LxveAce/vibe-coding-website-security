@@ -1,6 +1,6 @@
 # vibe-coding-website-security - Forward Plan
 
-> Status: GREEN / healthy. PUBLIC, MIT, docs-only AI-security guardrail. Single clean commit `637327e` on `main`, in sync with `origin/main`. 21 tracked files, all internal links resolve. Only real defects are 3 small footguns/stale refs in the lone PowerShell script + no link-rot CI. Last reviewed: 2026-06-27. (Update this date line each session.)
+> Status: GREEN / healthy. PUBLIC, MIT, docs-only AI-security guardrail. `main` in sync with `origin/main`. 26 tracked files; all internal links + heading anchors resolve, now enforced by a lychee link-check CI (`.github/workflows/link-check.yml`). The three PowerShell footguns/stale refs and the missing link-rot CI called out in earlier reviews are all resolved. Last reviewed: 2026-06-30. (Update this date line each session.)
 
 ## Where this stands
 
@@ -11,39 +11,41 @@
 - **Content layout:** `security/` (vulnerabilities, login-and-auth, checklist, ai-llm-security, advanced-web-security, http-security-headers), `engineering/beyond-code.md`, `production-readiness/`, `database-hosting/` (universal controls + per-provider guides incl. a Supabase free-tier deep dive).
 - **Only executable artifact:** `scripts/apply-cloudflare-headers.ps1` — standalone PowerShell that PUTs a Cloudflare response-header Transform Rule via the API.
 
-**How to "build/run."** It does not compile — you consume the Markdown. The lone script runs standalone: needs PowerShell + `$env:CLOUDFLARE_API_TOKEN` (Zone:Read + Transform Rules:Edit), invoked as `./apply-cloudflare-headers.ps1 -Domain example.com`. No external module deps. No package manifest, no test suite, no CI (`.github/` absent).
+**How to "build/run."** It does not compile — you consume the Markdown. The lone script runs standalone: needs PowerShell + `$env:CLOUDFLARE_API_TOKEN` (Zone:Read + Transform Rules:Edit), invoked as `./apply-cloudflare-headers.ps1 -Domain example.com`. No external module deps. No package manifest and no test suite; CI is a lychee Markdown link-check (`.github/workflows/link-check.yml`, config in `lychee.toml`) that runs on push/PR.
 
-**Current state (verified this session).** Clean working tree; local `main` == `origin/main` at `637327e` (the earlier "unpushed work" worry from stale `pushedAt` metadata is RESOLVED — nothing unpushed). 0 broken relative links across all `.md`. Script passes PowerShell AST parse. 0 GitHub issues, 0 releases. No genuine TODO/FIXME markers (only prose describing the vuln of leaving auth as a TODO).
+**Current state (verified this session).** Clean working tree; local `main` == `origin/main` (the earlier "unpushed work" worry from stale `pushedAt` metadata is RESOLVED — nothing unpushed). 0 broken links (relative, anchors, and external) across all `.md`, enforced in CI. Script passes PowerShell AST parse. 0 GitHub issues, 0 releases. No genuine TODO/FIXME markers (only prose describing the vuln of leaving auth as a TODO).
 
 ## P0 - do first
 
-There is **no true P0** — docs-only repo, no build, no live site to break. Highest-value first action is the cheap script-cleanup batch (all in `scripts/apply-cloudflare-headers.ps1`):
+There is **no true P0** — docs-only repo, no build, no live site to break. The earlier script-cleanup batch (all in `scripts/apply-cloudflare-headers.ps1`) is now **DONE**:
 
-1. **Fix the broken cross-reference** at line 7: comment says "see cloudflare-headers.md" but that file does not exist in this public repo (it's the private companion's name). Point it at `security/http-security-headers.md`.
-2. **Add a visible destructive-action warning** (in the script header AND in `README.md` / `security/http-security-headers.md`): running the script REPLACES the entire `http_response_headers_transform` entrypoint ruleset — any pre-existing transform rules on the zone are wiped.
+1. **Broken cross-reference — FIXED.** The stale `cloudflare-headers.md` reference now points at `security/http-security-headers.md`.
+2. **Destructive-action warning — DONE.** A visible warning that running the script REPLACES the entire `http_response_headers_transform` entrypoint ruleset (wiping any pre-existing transform rules on the zone) is present in the script header, `README.md`, and `security/http-security-headers.md`, and the script also prints it at runtime before any API call.
 
 > Template note: the "cyber-controller .exe/installer P0" does NOT apply here — this repo ships no executable/installer, only one standalone `.ps1`. Recorded as considered-and-out-of-scope.
 
 ## Surface bugs found
 
-| Title | Location | Severity | Note |
+All four script/CI surface bugs from earlier reviews are now resolved; the only open row is the cross-repo script drift, which is an owner reconciliation decision.
+
+| Title | Location | Status | Note |
 |---|---|---|---|
-| Script comment references `cloudflare-headers.md` (does not exist in public repo) | `scripts/apply-cloudflare-headers.ps1:7` | P2 | Public name is `security/http-security-headers.md` (README.md:33). One-line fix. Verified via grep this session. |
-| Script PUTs the entrypoint ruleset — REPLACES (not appends) existing Cloudflare transform rules | `scripts/apply-cloudflare-headers.ps1:56-58` | P2 | Caveat only in `.SYNOPSIS` comment; surface it in README + headers doc. Destructive for reusers with existing rules. |
-| CSP hard-codes `connect-src https://api.github.com` while labeled "same set for all static sites" | `scripts/apply-cloudflare-headers.ps1:31` | P3 | Breaks fetch/XHR on sites not calling that origin. Parameterize or document. |
-| No CI / automated Markdown link + anchor checking | `.github/` (absent) | P3 | 0 broken links today, but cross-references are the whole value; a rename would break navigation silently. |
-| `apply-cloudflare-headers.ps1` drifted between public & private repos (2839 vs 2785 bytes) | `scripts/apply-cloudflare-headers.ps1` vs `LxveAce/website-playbook` | P3 | Same filename, different content. Pick a single source of truth. |
+| Script comment referenced a `cloudflare-headers.md` name that does not exist in this public repo | `scripts/apply-cloudflare-headers.ps1` | RESOLVED | Now points at `security/http-security-headers.md`. |
+| Script PUTs the entrypoint ruleset — REPLACES (not appends) existing Cloudflare transform rules | `scripts/apply-cloudflare-headers.ps1` | DOCUMENTED | Intentional/idempotent, but now warned everywhere: script header, runtime output, README, and headers doc all tell reusers to review existing rules first. |
+| CSP hard-coded `connect-src https://api.github.com` while labeled "same set for all static sites" | `scripts/apply-cloudflare-headers.ps1` | RESOLVED | Now parameterized via `-ConnectSrc`; the default is documented as example-specific. |
+| No CI / automated Markdown link + anchor checking | `.github/workflows/link-check.yml` | RESOLVED | lychee link-check runs on push/PR with anchor-fragment checking; config in `lychee.toml`. |
+| `apply-cloudflare-headers.ps1` drifted between public & private repos (2839 vs 2785 bytes) | `scripts/apply-cloudflare-headers.ps1` vs `LxveAce/website-playbook` | P3 (open) | Same filename, different content. Pick a single source of truth. (Owner decision.) |
 
 ## Features to add
 
 **User directives:** none were supplied for this run (the USER DIRECTIVES section was empty). No features were invented. If the user later supplies directives, insert them here **verbatim** as planned work items before anything below.
 
 Optional, evidence-backed enhancements:
-- Lightweight CI (`.github/workflows`) running a Markdown link checker (lychee / markdown-link-check) on push/PR.
-- Extend that check to validate intra-doc `#anchor` links (recon only checked file existence).
-- Parameterize `apply-cloudflare-headers.ps1` (`-ConnectSrc` / `-Csp`) so it is genuinely reusable across sites.
+- Parameterize the script's full CSP via `-Csp` (the `-ConnectSrc` parameter already shipped) so the whole Content-Security-Policy — not just `connect-src` — is reusable across sites.
 - Only if ever shipping pinned artifacts: cut a tagged GitHub release (currently 0; llms.txt/AGENTS.md rely on always-latest raw URLs).
 - Set About `homepageUrl` only if a rendered docs site is ever published (none today).
+
+Shipped since the last review: the lychee link-check CI (`.github/workflows/link-check.yml`) with intra-doc `#anchor`/fragment validation, and the `-ConnectSrc` parameter on the Cloudflare script.
 
 ## Red-team / hardening
 
@@ -51,7 +53,7 @@ Optional, evidence-backed enhancements:
 - Reinforce minimal token scope (Zone:Read + Transform Rules:Edit, single zone), rotation, and "never commit the token" (it's read from `$env:CLOUDFLARE_API_TOKEN` — keep it that way, never add a default).
 - Document why `connect-src` is GitHub-only so consumers don't blind-copy a CSP that breaks their origins.
 - PUBLIC-repo discipline (standing rule): keep all vuln/OWASP-LLM/auth content as defensive hardening with fixes + sources; NO exploit recipes; NO maintainer PII (only the LxveAce alias in LICENSE is allowed public).
-- Consider branch protection on `main` (not confirmed set) so future edits pass PR + the proposed link-check CI.
+- Consider branch protection on `main` (not confirmed set) so future edits pass PR + the link-check CI.
 - Execute the script once against a throwaway zone to verify request-body shape before recommending widely (recon only static-parsed it).
 
 ## Dig deeper (next dedicated session)
