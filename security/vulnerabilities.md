@@ -38,7 +38,7 @@ Secrets and configuration exposure is the single most common and most damaging c
 
 ### 2. Public .env files
 
-**What it is.** A .env file containing secrets is served by the web server (e.g. https://site/.env returns it) or committed to the repository, letting anyone fetch the API keys, DB passwords, and tokens inside.
+**What it is.** A .env file containing secrets is served by the web server (e.g. `https://site/.env` returns it) or committed to the repository, letting anyone fetch the API keys, DB passwords, and tokens inside.
 
 **Why AI-coded apps hit it.** AI scaffolds put secrets in a .env at the project root and don't reliably add it to .gitignore or block dotfile serving, so the file gets committed or deployed as a static asset. Many vibe-coded projects also copy .env into the deploy directory.
 
