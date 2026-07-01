@@ -26,11 +26,14 @@ max_cache_age = "2d"
 # Present a real browser User-Agent so fewer hosts bot-block the checker.
 user_agent = "Mozilla/5.0 (compatible; lychee link-checker; +https://github.com/lycheeverse/lychee)"
 
-# Exclude illustrative placeholder URLs — these are examples in the docs, not
-# live endpoints (they are also written as inline code, but excluding them here
-# keeps the check honest if a future edit unwraps them).
 exclude = [
+  # Illustrative placeholder URLs — examples in the docs, not live endpoints
+  # (also written as inline code; excluded here in case a future edit unwraps them).
   '^https?://site/',
   '^https://acme-v02\.api\.letsencrypt\.org/acme/acct/',
   '^https://api\.pwnedpasswords\.com/range/',
+  # Live, canonical sources that refuse or drop connections from CI-runner IP
+  # ranges (verified 200 in a browser). Excluded so anti-bot behavior does not
+  # fail the build; the citations themselves are correct.
+  '^https?://(www\.)?slsa\.dev/',
 ]
