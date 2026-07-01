@@ -1,0 +1,36 @@
+# lychee link-checker configuration — https://github.com/lycheeverse/lychee
+# This repository is documentation-only; the link check guards against link rot
+# in the guidance and its cited sources.
+
+# Treat these HTTP statuses as success. Authoritative sources (vendor docs,
+# OWASP, government / ACM pages) frequently bot-block CI runners with
+# 403/405/429 even though the page is live in a browser; accept those instead
+# of failing the build on anti-bot responses.
+accept = ["200..=206", "403", "405", "429"]
+
+# Retry transient failures (rate limits, slow origins) before giving up.
+max_retries = 3
+retry_wait_time = 2
+
+# Some documentation hosts are slow to respond.
+timeout = 30
+
+# Also validate intra-doc "#anchor" fragments, not just that the file exists,
+# so a renamed heading can't silently break cross-document navigation.
+include_fragments = "full"
+
+# Cache results between runs to cut flakiness and load.
+cache = true
+max_cache_age = "2d"
+
+# Present a real browser User-Agent so fewer hosts bot-block the checker.
+user_agent = "Mozilla/5.0 (compatible; lychee link-checker; +https://github.com/lycheeverse/lychee)"
+
+# Exclude illustrative placeholder URLs — these are examples in the docs, not
+# live endpoints (they are also written as inline code, but excluding them here
+# keeps the check honest if a future edit unwraps them).
+exclude = [
+  '^https?://site/',
+  '^https://acme-v02\.api\.letsencrypt\.org/acme/acct/',
+  '^https://api\.pwnedpasswords\.com/range/',
+]

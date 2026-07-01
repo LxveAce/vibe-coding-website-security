@@ -17,5 +17,9 @@ jobs:
       - name: Check Markdown links
         uses: lycheeverse/lychee-action@v2
         with:
-          args: --no-progress --verbose './**/*.md'
+          # Pin lychee to the version lychee.toml was validated against.
+          lycheeVersion: v0.24.2
+          # Settings (accept-list, retries, cache, placeholder excludes,
+          # anchor-fragment checking) live in lychee.toml at the repo root.
+          args: --no-progress --verbose --config lychee.toml './**/*.md'
           fail: true
